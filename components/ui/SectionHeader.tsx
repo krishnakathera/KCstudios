@@ -2,6 +2,7 @@ interface SectionHeaderProps {
   label?: string;
   title: string;
   description?: string;
+  descriptionClassName?: string;
   dark?: boolean;
   centered?: boolean;
 }
@@ -10,6 +11,7 @@ export function SectionHeader({
   label,
   title,
   description,
+  descriptionClassName,
   dark = false,
   centered = true,
 }: SectionHeaderProps) {
@@ -33,9 +35,9 @@ export function SectionHeader({
       </h2>
       {description && (
         <p
-          className={`mx-auto mt-4 max-w-2xl text-base leading-relaxed md:text-lg ${
-            dark ? "text-white/70" : "text-muted"
-          } ${centered ? "" : "mx-0"}`}
+          className={`mx-auto mt-4 max-w-full text-pretty text-base leading-relaxed md:text-lg ${
+            descriptionClassName ?? ""
+          } ${dark ? "text-white/70" : "text-muted"} ${centered ? "" : "mx-0"}`}
         >
           {description}
         </p>
