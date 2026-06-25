@@ -8,7 +8,6 @@ interface BeforeAfterItem {
   before: string;
   after: string;
   label: string;
-  aspect?: string;
 }
 
 interface BeforeAfterCarouselProps {
@@ -26,11 +25,13 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
-      <BeforeAfterSlider key={activeItem.label} {...activeItem} />
-      <p className="mt-3 text-center text-sm font-medium text-text">{activeItem.label}</p>
+    <div className="mx-auto w-full max-w-md md:max-w-xl">
+      <div className="relative aspect-[16/10] w-full max-h-[min(52vw,280px)] md:max-h-[320px]">
+        <BeforeAfterSlider key={activeItem.label} {...activeItem} className="absolute inset-0" />
+      </div>
+      <p className="mt-2 text-center text-sm font-medium text-text">{activeItem.label}</p>
 
-      <div className="mt-6 flex flex-col items-center gap-4">
+      <div className="mt-4 flex flex-col items-center gap-3">
         <p className="text-sm font-medium text-muted">
           {activeIndex + 1} of {items.length}
         </p>
@@ -40,9 +41,9 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
             type="button"
             onClick={() => goTo(activeIndex - 1)}
             aria-label="Previous before and after"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white text-text shadow-sm transition-all hover:border-gold/40 hover:text-gold"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-text shadow-sm transition-all hover:border-gold/40 hover:text-gold"
           >
-            <ChevronLeft className="h-5 w-5" />
+            <ChevronLeft className="h-6 w-6" />
           </button>
 
           <div className="flex items-center gap-2">
@@ -66,9 +67,9 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
             type="button"
             onClick={() => goTo(activeIndex + 1)}
             aria-label="Next before and after"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-white text-text shadow-sm transition-all hover:border-gold/40 hover:text-gold"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 bg-white text-text shadow-sm transition-all hover:border-gold/40 hover:text-gold"
           >
-            <ChevronRight className="h-5 w-5" />
+            <ChevronRight className="h-6 w-6" />
           </button>
         </div>
       </div>

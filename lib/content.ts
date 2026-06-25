@@ -4,6 +4,8 @@ export const site = {
   description:
     "Hire KCStudios as a second shooter or freelance photographer and videographer. Professional Sony cinema gear, seamless team integration, and reliable coverage for weddings, events, and productions.",
   email: "hello@kcstudios.com",
+  phone: "+1 (703) 606-6953",
+  phoneTel: "tel:+17036066953",
   bookingUrl: "",
   social: {
     instagram: "https://instagram.com/kcstudios.us",
@@ -36,7 +38,7 @@ export const services = [
   {
     title: "Freelance Videography",
     description:
-      "Cinematic event films, B-roll, and highlight reels on cinema-grade Sony FX bodies with pro audio and stabilization.",
+      "Cinematic event films, B-roll, and highlight reels on cinema-grade Sony FX bodies with pro audio and stabilization — plus multi-camera live streaming for weddings, events, and productions.",
     icon: "video" as const,
   },
   {
@@ -80,6 +82,12 @@ export const portfolio = {
       height: 1600,
     },
     {
+      src: "/gallery/1A100811.jpg",
+      alt: "Couple dancing under a glowing crystal chandelier in a grand purple-lit ballroom",
+      width: 1600,
+      height: 1067,
+    },
+    {
       src: "/gallery/DSC08589.jpg",
       alt: "Couple in traditional attire sharing a golden-hour moment outdoors",
       width: 1067,
@@ -99,13 +107,11 @@ export const beforeAfter = [
     before: "/before-after/r4-00371-before.jpg",
     after: "/before-after/r4-00371-after.jpg",
     label: "Color grade & retouch",
-    aspect: "3 / 2",
   },
   {
     before: "/before-after/dee-before.jpg",
     after: "/before-after/dee-after.jpg",
     label: "Portrait retouch",
-    aspect: "2 / 3",
   },
 ];
 

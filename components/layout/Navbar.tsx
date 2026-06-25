@@ -59,7 +59,7 @@ export function Navbar() {
 
         <button
           type="button"
-          className="text-white md:hidden"
+          className="flex h-11 w-11 items-center justify-center text-white md:hidden"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           onClick={() => setMobileOpen(!mobileOpen)}
         >

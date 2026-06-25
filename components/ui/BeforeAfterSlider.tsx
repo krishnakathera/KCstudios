@@ -7,7 +7,7 @@ interface BeforeAfterSliderProps {
   before: string;
   after: string;
   label: string;
-  aspect?: string;
+  className?: string;
 }
 
 const MIN_ZOOM = 1;
@@ -18,7 +18,7 @@ export function BeforeAfterSlider({
   before,
   after,
   label,
-  aspect = "3 / 4",
+  className = "",
 }: BeforeAfterSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(50);
@@ -136,12 +136,6 @@ export function BeforeAfterSlider({
     };
   }, [clampPan, dragging, updatePosition, zoom]);
 
-  const onWheel = (e: React.WheelEvent) => {
-    e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.15 : 0.15;
-    setZoomLevel(zoom + delta);
-  };
-
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft") setPosition((p) => Math.max(0, p - 2));
     if (e.key === "ArrowRight") setPosition((p) => Math.min(100, p + 2));
@@ -160,12 +154,10 @@ export function BeforeAfterSlider({
         : "cursor-col-resize";
 
   return (
-    <div className="w-full">
+    <div className={`h-full ${className}`}>
       <div
         ref={containerRef}
-        className={`relative w-full select-none overflow-hidden rounded-2xl border border-black/10 bg-dark shadow-sm ${cursorClass}`}
-        style={{ aspectRatio: aspect }}
-        onWheel={onWheel}
+        className={`relative h-full w-full select-none overflow-hidden rounded-2xl border border-black/10 bg-dark shadow-sm ${cursorClass}`}
         onMouseDown={(e) => startInteraction(e.clientX, e.clientY, e.target)}
         onTouchStart={(e) =>
           startInteraction(e.touches[0].clientX, e.touches[0].clientY, e.target)
@@ -177,7 +169,7 @@ export function BeforeAfterSlider({
             <img
               src={after}
               alt={`${label} — after`}
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-contain"
               draggable={false}
               loading="eager"
             />
@@ -193,7 +185,7 @@ export function BeforeAfterSlider({
             <img
               src={before}
               alt={`${label} — before`}
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-contain"
               draggable={false}
               loading="eager"
             />
@@ -232,7 +224,7 @@ export function BeforeAfterSlider({
           After
         </span>
 
-        <div className="absolute right-3 bottom-3 z-20 flex items-center gap-1 rounded-full border border-white/20 bg-black/60 p-1 backdrop-blur-sm">
+        <div className="absolute right-2 bottom-2 z-20 flex items-center gap-1.5 rounded-full border border-white/30 bg-black/75 p-1.5 shadow-lg backdrop-blur-sm sm:right-3 sm:bottom-3">
           <button
             type="button"
             aria-label="Zoom out"
@@ -240,11 +232,11 @@ export function BeforeAfterSlider({
               e.stopPropagation();
               setZoomLevel(zoom - 0.25);
             }}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
           >
-            <Minus className="h-4 w-4" />
+            <Minus className="h-5 w-5" strokeWidth={2.5} />
           </button>
-          <span className="min-w-10 text-center text-xs font-medium text-white">
+          <span className="min-w-12 text-center text-sm font-semibold text-white">
             {Math.round(zoom * 100)}%
           </span>
           <button
@@ -254,9 +246,9 @@ export function BeforeAfterSlider({
               e.stopPropagation();
               setZoomLevel(zoom + 0.25);
             }}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-5 w-5" strokeWidth={2.5} />
           </button>
           {zoom > 1 && (
             <button
@@ -266,16 +258,16 @@ export function BeforeAfterSlider({
                 e.stopPropagation();
                 resetView();
               }}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
             >
-              <RotateCcw className="h-3.5 w-3.5" />
+              <RotateCcw className="h-5 w-5" strokeWidth={2.5} />
             </button>
           )}
         </div>
 
         {zoom > 1 && (
-          <p className="absolute bottom-3 left-3 z-20 rounded-full bg-black/60 px-3 py-1 text-xs text-white/80 backdrop-blur-sm">
-            Drag to pan · scroll to zoom
+          <p className="absolute bottom-2 left-2 z-20 rounded-full bg-black/75 px-3 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm sm:bottom-3 sm:left-3">
+            Drag to pan
           </p>
         )}
       </div>

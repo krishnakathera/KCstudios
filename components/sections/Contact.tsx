@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Mail, Youtube } from "lucide-react";
+import { Instagram, Mail, Phone, Youtube } from "lucide-react";
 import { site } from "@/lib/content";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -28,6 +28,9 @@ function SocialLink({
   );
 }
 
+const contactButtonClass =
+  "inline-flex min-h-12 w-full max-w-sm items-center justify-center gap-3 rounded-full px-8 py-4 text-sm font-semibold uppercase tracking-widest transition-colors active:scale-[0.98]";
+
 export function Contact() {
   return (
     <section id="contact" className="bg-dark px-6 py-20 md:px-8 md:py-28">
@@ -42,12 +45,22 @@ export function Contact() {
         </FadeIn>
 
         <FadeIn delay={100}>
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-4 sm:gap-5">
+            {site.phoneTel && (
+              <a
+                href={site.phoneTel}
+                className={`${contactButtonClass} border-2 border-gold text-gold hover:bg-gold hover:text-dark`}
+              >
+                <Phone className="h-4 w-4 shrink-0" aria-hidden />
+                {site.phone}
+              </a>
+            )}
+
             <Link
               href={`mailto:${site.email}`}
-              className="inline-flex items-center gap-3 rounded-full bg-gold px-10 py-4 text-sm font-semibold uppercase tracking-widest text-dark transition-colors hover:bg-gold-light"
+              className={`${contactButtonClass} bg-gold text-dark hover:bg-gold-light`}
             >
-              <Mail className="h-4 w-4" />
+              <Mail className="h-4 w-4 shrink-0" aria-hidden />
               {site.email}
             </Link>
 
@@ -56,13 +69,13 @@ export function Contact() {
                 href={site.bookingUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-white/60 underline-offset-4 transition-colors hover:text-gold hover:underline"
+                className="min-h-11 px-4 py-2 text-sm text-white/60 underline-offset-4 transition-colors hover:text-gold hover:underline"
               >
                 Book a consultation
               </Link>
             )}
 
-            <div className="mt-4 flex gap-4">
+            <div className="mt-2 flex gap-4">
               <SocialLink href={site.social.instagram} label="Instagram">
                 <Instagram className="h-4 w-4" />
               </SocialLink>
