@@ -1,5 +1,5 @@
 import { beforeAfter, beforeAfterPlaceholderCount } from "@/lib/content";
-import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
+import { BeforeAfterCarousel } from "@/components/ui/BeforeAfterCarousel";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { SlidersHorizontal } from "lucide-react";
@@ -41,19 +41,19 @@ export function BeforeAfterSection() {
           />
         </FadeIn>
 
-        <div className="grid gap-8 md:grid-cols-2 md:gap-10">
-          {hasItems
-            ? beforeAfter.map((item, i) => (
-                <FadeIn key={item.label} delay={i * 100}>
-                  <BeforeAfterSlider {...item} />
-                </FadeIn>
-              ))
-            : placeholders.map((i) => (
-                <FadeIn key={i} delay={i * 100}>
-                  <PlaceholderSlider label={`Edit example ${i + 1}`} />
-                </FadeIn>
-              ))}
-        </div>
+        {hasItems ? (
+          <FadeIn>
+            <BeforeAfterCarousel items={beforeAfter} />
+          </FadeIn>
+        ) : (
+          <div className="grid gap-8 md:gap-10">
+            {placeholders.map((i) => (
+              <FadeIn key={i} delay={i * 100}>
+                <PlaceholderSlider label={`Edit example ${i + 1}`} />
+              </FadeIn>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

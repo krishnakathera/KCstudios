@@ -53,17 +53,61 @@ export const portfolio = {
     title: "KC Studios Cinematic Collection",
     caption: "A curated selection of cinematic wedding and event films",
   },
-  galleryPlaceholderCount: 6,
-  gallery: [] as { src: string; alt: string; category?: string }[],
+  galleryPlaceholderCount: 0,
+  gallery: [
+    {
+      src: "/gallery/5A317BC0-3BD4-4FB3-A3C9-9ADB394FF924.jpg",
+      alt: "Couple in formal attire twirling under a crystal chandelier in a grand ballroom",
+      width: 1280,
+      height: 1600,
+    },
+    {
+      src: "/gallery/DSC00077-Edit.jpg",
+      alt: "Bride and groom walking through the marble halls of the New York Public Library",
+      width: 1067,
+      height: 1600,
+    },
+    {
+      src: "/gallery/DSC00527-Edit.jpg",
+      alt: "Couple in a red gown and tuxedo walking toward the camera with the U.S. Capitol dome behind them",
+      width: 1067,
+      height: 1600,
+    },
+    {
+      src: "/gallery/DSC00769.jpg",
+      alt: "Bride seated in a vintage luxury car as the groom holds the door on a cobblestone city street",
+      width: 1600,
+      height: 1067,
+    },
+    {
+      src: "/gallery/DSC08589.jpg",
+      alt: "Couple in traditional attire sharing a golden-hour moment outdoors",
+      width: 1067,
+      height: 1600,
+    },
+    {
+      src: "/gallery/R4_00693.jpg",
+      alt: "Bride and groom posing in front of ornate bronze doors at a grand stone building",
+      width: 998,
+      height: 1600,
+    },
+  ],
 };
 
-export const beforeAfter = [] as {
-  before: string;
-  after: string;
-  label: string;
-}[];
+export const beforeAfter = [
+  {
+    before: "/before-after/r4-00371-before.jpg",
+    after: "/before-after/r4-00371-after.jpg",
+    label: "Color grade & retouch",
+  },
+  {
+    before: "/before-after/dee-before.jpg",
+    after: "/before-after/dee-after.jpg",
+    label: "Portrait retouch",
+  },
+];
 
-export const beforeAfterPlaceholderCount = 2;
+export const beforeAfterPlaceholderCount = 0;
 
 export const gear = {
   cameraBodies: [

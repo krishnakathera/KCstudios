@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { GripVertical } from "lucide-react";
+import { GripVertical, Minus, Plus, RotateCcw } from "lucide-react";
 
 interface BeforeAfterSliderProps {
   before: string;
@@ -10,10 +10,22 @@ interface BeforeAfterSliderProps {
   label: string;
 }
 
+const MIN_ZOOM = 1;
+const MAX_ZOOM = 3;
+const HANDLE_HIT_RADIUS = 48;
+
 export function BeforeAfterSlider({ before, after, label }: BeforeAfterSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(50);
-  const [dragging, setDragging] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [dragging, setDragging] = useState<"slider" | "pan" | null>(null);
+  const panStart = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
+
+  const imageTransform = {
+    transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+    transformOrigin: "center center",
+  };
 
   const updatePosition = useCallback((clientX: number) => {
     const container = containerRef.current;
@@ -23,19 +35,92 @@ export function BeforeAfterSlider({ before, after, label }: BeforeAfterSliderPro
     setPosition((x / rect.width) * 100);
   }, []);
 
+  const isNearHandle = useCallback((clientX: number) => {
+    const container = containerRef.current;
+    if (!container) return false;
+    const rect = container.getBoundingClientRect();
+    const handleX = rect.left + (position / 100) * rect.width;
+    return Math.abs(clientX - handleX) <= HANDLE_HIT_RADIUS;
+  }, [position]);
+
+  const clampPan = useCallback(
+    (x: number, y: number, nextZoom: number) => {
+      const container = containerRef.current;
+      if (!container || nextZoom <= 1) return { x: 0, y: 0 };
+
+      const maxX = ((nextZoom - 1) * container.clientWidth) / 2;
+      const maxY = ((nextZoom - 1) * container.clientHeight) / 2;
+
+      return {
+        x: Math.max(-maxX, Math.min(maxX, x)),
+        y: Math.max(-maxY, Math.min(maxY, y)),
+      };
+    },
+    []
+  );
+
+  const setZoomLevel = useCallback(
+    (nextZoom: number) => {
+      const clamped = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, nextZoom));
+      setZoom(clamped);
+      setPan((current) => clampPan(current.x, current.y, clamped));
+      if (clamped === 1) setPan({ x: 0, y: 0 });
+    },
+    [clampPan]
+  );
+
+  const startInteraction = useCallback(
+    (clientX: number, clientY: number, target: EventTarget | null) => {
+      const onHandle =
+        target instanceof Element && Boolean(target.closest("[data-slider-handle]"));
+      const nearHandle = onHandle || isNearHandle(clientX);
+
+      if (nearHandle) {
+        setDragging("slider");
+        updatePosition(clientX);
+        return;
+      }
+
+      if (zoom > 1) {
+        setDragging("pan");
+        panStart.current = { x: clientX, y: clientY, panX: pan.x, panY: pan.y };
+        return;
+      }
+
+      setDragging("slider");
+      updatePosition(clientX);
+    },
+    [isNearHandle, pan.x, pan.y, updatePosition, zoom]
+  );
+
   useEffect(() => {
     if (!dragging) return;
 
     const onMove = (e: MouseEvent | TouchEvent) => {
       const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-      updatePosition(clientX);
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+
+      if (dragging === "slider") {
+        updatePosition(clientX);
+        return;
+      }
+
+      const dx = clientX - panStart.current.x;
+      const dy = clientY - panStart.current.y;
+      setPan(
+        clampPan(
+          panStart.current.panX + dx,
+          panStart.current.panY + dy,
+          zoom
+        )
+      );
     };
 
-    const onUp = () => setDragging(false);
+    const onUp = () => setDragging(null);
 
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchmove", onMove);
+    window.addEventListener("touchmove", onMove, { passive: false });
     window.addEventListener("touchend", onUp);
 
     return () => {
@@ -44,33 +129,55 @@ export function BeforeAfterSlider({ before, after, label }: BeforeAfterSliderPro
       window.removeEventListener("touchmove", onMove);
       window.removeEventListener("touchend", onUp);
     };
-  }, [dragging, updatePosition]);
+  }, [clampPan, dragging, updatePosition, zoom]);
+
+  const onWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.15 : 0.15;
+    setZoomLevel(zoom + delta);
+  };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft") setPosition((p) => Math.max(0, p - 2));
     if (e.key === "ArrowRight") setPosition((p) => Math.min(100, p + 2));
   };
 
+  const resetView = () => {
+    setZoom(1);
+    setPan({ x: 0, y: 0 });
+  };
+
+  const cursorClass =
+    dragging === "pan"
+      ? "cursor-grabbing"
+      : zoom > 1
+        ? "cursor-grab"
+        : "cursor-col-resize";
+
   return (
     <div className="w-full">
       <div
         ref={containerRef}
-        className="relative aspect-[16/10] w-full cursor-col-resize select-none overflow-hidden rounded-2xl border border-black/10 shadow-sm"
-        onMouseDown={(e) => {
-          setDragging(true);
-          updatePosition(e.clientX);
-        }}
-        onTouchStart={(e) => {
-          setDragging(true);
-          updatePosition(e.touches[0].clientX);
-        }}
+        className={`relative aspect-[3/4] w-full select-none overflow-hidden rounded-2xl border border-black/10 shadow-sm ${cursorClass}`}
+        onWheel={onWheel}
+        onMouseDown={(e) => startInteraction(e.clientX, e.clientY, e.target)}
+        onTouchStart={(e) =>
+          startInteraction(e.touches[0].clientX, e.touches[0].clientY, e.target)
+        }
       >
-        <Image src={after} alt={`${label} — after`} fill className="object-cover" sizes="100vw" />
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="relative h-full w-full" style={imageTransform}>
+            <Image src={after} alt={`${label} — after`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" draggable={false} />
+          </div>
+        </div>
+
         <div
           className="absolute inset-0 overflow-hidden"
           style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
         >
-          <Image src={before} alt={`${label} — before`} fill className="object-cover" sizes="100vw" />
+          <div className="relative h-full w-full" style={imageTransform}>
+            <Image src={before} alt={`${label} — before`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" draggable={false} />
+          </div>
         </div>
 
         <div
@@ -79,22 +186,80 @@ export function BeforeAfterSlider({ before, after, label }: BeforeAfterSliderPro
         >
           <button
             type="button"
+            data-slider-handle
             aria-label={`Compare before and after for ${label}. Use arrow keys to adjust.`}
-            className="absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-gold text-dark shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+            className="absolute top-1/2 left-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 cursor-col-resize items-center justify-center rounded-full border-2 border-white bg-gold text-dark shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
             onKeyDown={onKeyDown}
-            onMouseDown={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+              setDragging("slider");
+              updatePosition(e.clientX);
+            }}
+            onTouchStart={(e) => {
+              e.stopPropagation();
+              setDragging("slider");
+              updatePosition(e.touches[0].clientX);
+            }}
           >
             <GripVertical className="h-4 w-4" />
           </button>
         </div>
 
-        <span className="absolute top-3 left-3 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-          Before
-        </span>
-        <span className="absolute top-3 right-3 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+        <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
+          <span className="rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+            Before
+          </span>
+        </div>
+        <span className="absolute top-3 right-3 z-20 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
           After
         </span>
+
+        <div className="absolute right-3 bottom-3 z-20 flex items-center gap-1 rounded-full border border-white/20 bg-black/60 p-1 backdrop-blur-sm">
+          <button
+            type="button"
+            aria-label="Zoom out"
+            onClick={(e) => {
+              e.stopPropagation();
+              setZoomLevel(zoom - 0.25);
+            }}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
+          >
+            <Minus className="h-4 w-4" />
+          </button>
+          <span className="min-w-10 text-center text-xs font-medium text-white">
+            {Math.round(zoom * 100)}%
+          </span>
+          <button
+            type="button"
+            aria-label="Zoom in"
+            onClick={(e) => {
+              e.stopPropagation();
+              setZoomLevel(zoom + 0.25);
+            }}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
+          >
+            <Plus className="h-4 w-4" />
+          </button>
+          {zoom > 1 && (
+            <button
+              type="button"
+              aria-label="Reset zoom"
+              onClick={(e) => {
+                e.stopPropagation();
+                resetView();
+              }}
+              className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
+
+        {zoom > 1 && (
+          <p className="absolute bottom-3 left-3 z-20 rounded-full bg-black/60 px-3 py-1 text-xs text-white/80 backdrop-blur-sm">
+            Drag to pan · scroll to zoom
+          </p>
+        )}
       </div>
       <p className="mt-3 text-center text-sm font-medium text-text">{label}</p>
     </div>
