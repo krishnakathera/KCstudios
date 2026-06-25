@@ -37,7 +37,7 @@ export function BeforeAfterSection() {
           <SectionHeader
             label="Post-Production"
             title="Before & after"
-            description="Here are some samples of before and after based on the request. We offer color grading, retouching, cinematic video editing and documentary cuts."
+            description="Below are before and after samples from real client requests — color grading, retouching, cinematic video editing, and documentary cuts, each matched to your style. We're happy to provide a sample edit so you can see whether we're the right fit for your team."
           />
         </FadeIn>
 
