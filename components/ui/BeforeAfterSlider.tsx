@@ -177,8 +177,9 @@ export function BeforeAfterSlider({
             <img
               src={after}
               alt={`${label} — after`}
-              className="absolute inset-0 h-full w-full object-contain"
+              className="absolute inset-0 h-full w-full object-cover"
               draggable={false}
+              loading="eager"
             />
           </div>
         </div>
@@ -192,8 +193,9 @@ export function BeforeAfterSlider({
             <img
               src={before}
               alt={`${label} — before`}
-              className="absolute inset-0 h-full w-full object-contain"
+              className="absolute inset-0 h-full w-full object-cover"
               draggable={false}
+              loading="eager"
             />
           </div>
         </div>
