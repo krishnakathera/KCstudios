@@ -1,4 +1,5 @@
 import { Play } from "lucide-react";
+import { getVimeoVideoEmbedUrl } from "@/lib/vimeo";
 
 interface VideoEmbedProps {
   url?: string;
@@ -19,8 +20,7 @@ function getEmbedUrl(url: string): string | null {
     }
 
     if (parsed.hostname.includes("vimeo.com")) {
-      const videoId = parsed.pathname.split("/").filter(Boolean).pop();
-      if (videoId) return `https://player.vimeo.com/video/${videoId}`;
+      return getVimeoVideoEmbedUrl(url);
     }
 
     return url;
@@ -59,7 +59,7 @@ export function VideoEmbed({ url, title = "Featured video", caption }: VideoEmbe
         <iframe
           src={embedUrl}
           title={title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
           allowFullScreen
           className="absolute inset-0 h-full w-full border-0"
         />

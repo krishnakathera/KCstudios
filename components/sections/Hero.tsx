@@ -43,7 +43,7 @@ export function Hero() {
       </div>
 
       <Link
-        href="#stats"
+        href="#about"
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/30 transition-colors hover:text-gold"
         aria-label="Scroll to content"
       >

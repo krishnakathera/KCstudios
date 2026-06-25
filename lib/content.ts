@@ -1,75 +1,57 @@
 export const site = {
-  name: "K C STUDIOS",
-  tagline: "Cinematic storytelling for your most important moments.",
+  name: "KCStudios",
+  tagline: "Second shooter and freelance photo & video for your next production.",
   description:
-    "Professional photography and videography for weddings, events, and productions. Hundreds of weddings across cultures, full production capability, and post-production services.",
+    "Hire KCStudios as a second shooter or freelance photographer and videographer. Professional Sony cinema gear, seamless team integration, and reliable coverage for weddings, events, and productions.",
   email: "hello@kcstudios.com",
   bookingUrl: "",
   social: {
-    instagram: "",
-    vimeo: "",
+    instagram: "https://instagram.com/kcstudios.us",
+    vimeo: "https://vimeo.com/khotofilms",
     youtube: "",
   },
 };
 
 export const navLinks = [
+  { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Work", href: "#work" },
   { label: "Gear", href: "#gear" },
-  { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
-];
-
-export const stats = [
-  {
-    value: "100+",
-    label: "Weddings",
-    description: "Across cultures, traditions, and timelines",
-  },
-  {
-    value: "8",
-    label: "Team Members Led",
-    description: "Experienced in coordinating large productions",
-  },
-  {
-    value: "Full",
-    label: "Production",
-    description: "Photo, video, audio, lighting & aerial under one roof",
-  },
 ];
 
 export const services = [
   {
-    title: "Photography",
+    title: "2nd Shooter",
     description:
-      "Timeless stills captured with professional Sony bodies and a full lens lineup — from wide establishing shots to intimate portraits.",
+      "Reliable photo or video backup that slots into your workflow — same gear standards, clear communication, and footage delivered ready for your edit.",
+    icon: "extras" as const,
+  },
+  {
+    title: "Freelance Photography",
+    description:
+      "Lead or support stills coverage with professional Sony bodies and a full lens lineup — from wide establishing shots to intimate portraits.",
     icon: "camera" as const,
   },
   {
-    title: "Videography",
+    title: "Freelance Videography",
     description:
-      "Cinematic event films and highlight reels shot on cinema-grade Sony FX bodies with professional audio and stabilization.",
+      "Cinematic event films, B-roll, and highlight reels on cinema-grade Sony FX bodies with pro audio and stabilization.",
     icon: "video" as const,
   },
   {
-    title: "Aerial & Drone",
+    title: "Production Support",
     description:
-      "Stunning aerial perspectives with DJI Mavic 3 Pro and Air 2S for venue reveals, outdoor ceremonies, and cinematic B-roll.",
-    icon: "drone" as const,
-  },
-  {
-    title: "Full Production",
-    description:
-      "End-to-end coverage — photo, video, audio, lighting, and aerial — managed and delivered by one experienced team.",
+      "Bring the full kit — cameras, lenses, audio, and lighting — so your production has the gear and crew backup it needs on set.",
     icon: "production" as const,
   },
 ];
 
 export const portfolio = {
   featuredVideo: {
-    url: "",
-    title: "Featured Reel",
-    caption: "Your highlight reel will appear here",
+    url: "https://vimeo.com/showcase/9929569",
+    title: "KC Studios Cinematic Collection",
+    caption: "A curated selection of cinematic wedding and event films",
   },
   galleryPlaceholderCount: 6,
   gallery: [] as { src: string; alt: string; category?: string }[],
@@ -85,14 +67,18 @@ export const beforeAfterPlaceholderCount = 2;
 
 export const gear = {
   cameraBodies: [
-    "2× Sony Alpha 1",
-    "2× Sony FX3",
-    "1× Sony FX30",
-    "1× Sony A7 IV",
+    "Sony Alpha 1",
+    "Sony A7RV",
+    "Sony FX3",
+    "Sony A7SIII",
+    "Sony FX30",
+    "Sony A7 IV",
   ],
   lenses: [
     "Sony FE 12–24mm f/2.8",
-    "2× Sony FE 16–35mm f/2.8",
+    "Sony FE 16–35mm f/2.8",
+    "Tamron 17–28mm f/2.8",
+    "Sony FE 28–70mm f/2.0",
     "Sony FE 24mm f/1.4",
     "Sony FE 35mm f/1.4",
     "Sony FE 50mm f/1.2",
@@ -104,21 +90,33 @@ export const gear = {
   audio: [
     "Zoom F8 Field Recorder",
     "DJI Mic Kit",
-    "3× Lapel Recorders",
+    "Lapel Recorders",
     "Shotgun Microphone",
+    "Timecode Support",
   ],
   lighting: [
-    "3× Nanlite Forza 60x",
-    "2× Nanlite Forza 500W",
-    "2× Aputure F22c",
-    "3× Godox V1",
-    "2× Godox AD200",
-    "2× Godox AD300",
-    "1× Godox AD400",
-    "1× Godox AD600",
+    "Nanlite Forza 60x",
+    "Nanlite Forza 500W",
+    "Aputure F22c",
+    "Godox V1",
+    "Godox AD200",
+    "Godox AD300",
+    "Godox AD400",
+    "Godox AD600",
     "Various diffusers & modifiers",
   ],
-  support: [
+  dj: [
+    "QSC Speakers",
+    "Bose Subs",
+    "Light Bars",
+    "Sparklers",
+    "Dancefloor Lights",
+    "Uplights",
+    "Wireless Mics",
+    "Photo Booth",
+    "Video Booth (NEW Trend!)",
+  ],
+  videoExtras: [
     "DJI RS 3 Pro Gimbal",
     "DJI RS Mini Gimbal",
     "DJI Mavic 3 Pro",
@@ -152,40 +150,29 @@ export const gearCategories = [
     items: gear.lighting,
   },
   {
-    id: "support",
-    title: "Support & Aerial",
-    icon: "drone" as const,
-    items: gear.support,
+    id: "dj",
+    title: "DJ",
+    icon: "dj" as const,
+    items: gear.dj,
+  },
+  {
+    id: "videoExtras",
+    title: "Video Extras",
+    icon: "video" as const,
+    items: gear.videoExtras,
   },
 ];
 
 export const about = {
-  headline: "Built for the moments that can't be recreated",
+  headline: "A reliable addition to your crew",
   paragraphs: [
-    "I've managed teams of up to eight and delivered hundreds of weddings — across cultures, traditions, and the most demanding schedules. From intimate ceremonies to large-scale celebrations, I know how to move fast without sacrificing quality.",
-    "Whether you need a lead shooter, a full production crew, or reliable coverage you can hand off entirely — K C STUDIOS brings cinema-grade gear, calm leadership under pressure, and a commitment to capturing every moment that matters.",
+    "Studios and lead shooters hire KCStudios when they need a second shooter or freelancer who shows up prepared, communicates clearly, and delivers footage that fits their workflow.",
+    "From multicultural weddings to fast-paced event coverage, we bring cinema-grade Sony gear, calm professionalism on set, and the flexibility to support your vision — not compete with it.",
   ],
   highlights: [
-    "Multicultural wedding experience",
-    "Team leadership & coordination",
-    "Fast-paced, high-pressure environments",
-    "Photo + video + audio + aerial",
+    "2nd shooter photo & video",
+    "Freelance coverage on your timeline",
+    "Full pro gear kit available",
+    "Seamless team integration",
   ],
 };
-
-export const additionalServices = [
-  {
-    title: "Post-Production Editing",
-    description:
-      "Professional color grading, cutting, and delivery for photo and video. Polished results, ready to share.",
-    price: "From $200 / event",
-    icon: "edit" as const,
-  },
-  {
-    title: "2nd Shooter & Coverage",
-    description:
-      "Need backup coverage or someone to shoot on your behalf? I integrate seamlessly with your team or lead independently.",
-    price: "Available on request",
-    icon: "users" as const,
-  },
-];

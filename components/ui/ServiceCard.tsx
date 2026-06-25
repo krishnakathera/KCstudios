@@ -1,7 +1,7 @@
 import {
   Camera,
   Clapperboard,
-  Plane,
+  Sparkles,
   Layers,
   type LucideIcon,
 } from "lucide-react";
@@ -9,7 +9,7 @@ import {
 const iconMap: Record<string, LucideIcon> = {
   camera: Camera,
   video: Clapperboard,
-  drone: Plane,
+  extras: Sparkles,
   production: Layers,
 };
 
@@ -23,7 +23,7 @@ export function ServiceCard({ title, description, icon }: ServiceCardProps) {
   const Icon = iconMap[icon];
 
   return (
-    <div className="group flex flex-col rounded-2xl border border-black/5 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
+    <div className="group flex h-full flex-col rounded-2xl border border-black/5 bg-white p-8 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md">
       <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full bg-gold/10 text-gold transition-colors group-hover:bg-gold group-hover:text-dark">
         <Icon className="h-5 w-5" strokeWidth={1.5} />
       </div>

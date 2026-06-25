@@ -10,14 +10,14 @@ export function Services() {
         <FadeIn>
           <SectionHeader
             label="Services"
-            title="Everything you need, one team"
-            description="From intimate portraits to full cinematic production — tailored coverage for weddings, events, and commercial work."
+            title="Hire us for your next shoot"
+            description="Second shooter and freelance photo & video coverage — built to support studios, lead shooters, and production teams."
           />
         </FadeIn>
 
-        <div className="grid gap-6 sm:grid-cols-2 md:gap-8">
+        <div className="grid auto-rows-fr gap-6 sm:grid-cols-2 md:gap-8">
           {services.map((service, i) => (
-            <FadeIn key={service.title} delay={i * 80}>
+            <FadeIn key={service.title} delay={i * 80} className="h-full">
               <ServiceCard {...service} />
             </FadeIn>
           ))}

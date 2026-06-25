@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { navLinks } from "@/lib/content";
+import { navLinks, site } from "@/lib/content";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,8 +32,8 @@ export function Navbar() {
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-8">
-        <Link href="#top" className="relative h-10 w-24 shrink-0" aria-label="K C STUDIOS home">
-          <Image src="/logo.png" alt="K C STUDIOS" fill className="object-contain object-left" priority />
+        <Link href="#top" className="relative h-10 w-24 shrink-0" aria-label={`${site.name} home`}>
+          <Image src="/logo.png" alt={site.name} fill className="object-contain object-left" priority />
         </Link>
 
         <ul className="hidden items-center gap-8 md:flex">
