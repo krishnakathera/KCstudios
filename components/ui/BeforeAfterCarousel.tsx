@@ -8,6 +8,7 @@ interface BeforeAfterItem {
   before: string;
   after: string;
   label: string;
+  aspect?: string;
 }
 
 interface BeforeAfterCarouselProps {
@@ -27,6 +28,7 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
   return (
     <div className="mx-auto w-full max-w-3xl">
       <BeforeAfterSlider key={activeItem.label} {...activeItem} />
+      <p className="mt-3 text-center text-sm font-medium text-text">{activeItem.label}</p>
 
       <div className="mt-6 flex flex-col items-center gap-4">
         <p className="text-sm font-medium text-muted">

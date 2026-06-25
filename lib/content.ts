@@ -56,12 +56,6 @@ export const portfolio = {
   galleryPlaceholderCount: 0,
   gallery: [
     {
-      src: "/gallery/5A317BC0-3BD4-4FB3-A3C9-9ADB394FF924.jpg",
-      alt: "Couple in formal attire twirling under a crystal chandelier in a grand ballroom",
-      width: 1280,
-      height: 1600,
-    },
-    {
       src: "/gallery/DSC00077-Edit.jpg",
       alt: "Bride and groom walking through the marble halls of the New York Public Library",
       width: 1067,
@@ -78,6 +72,12 @@ export const portfolio = {
       alt: "Bride seated in a vintage luxury car as the groom holds the door on a cobblestone city street",
       width: 1600,
       height: 1067,
+    },
+    {
+      src: "/gallery/5A317BC0-3BD4-4FB3-A3C9-9ADB394FF924.jpg",
+      alt: "Couple in formal attire twirling under a crystal chandelier in a grand ballroom",
+      width: 1280,
+      height: 1600,
     },
     {
       src: "/gallery/DSC08589.jpg",
@@ -99,11 +99,13 @@ export const beforeAfter = [
     before: "/before-after/r4-00371-before.jpg",
     after: "/before-after/r4-00371-after.jpg",
     label: "Color grade & retouch",
+    aspect: "3 / 2",
   },
   {
     before: "/before-after/dee-before.jpg",
     after: "/before-after/dee-after.jpg",
     label: "Portrait retouch",
+    aspect: "2 / 3",
   },
 ];
 

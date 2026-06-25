@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { GripVertical, Minus, Plus, RotateCcw } from "lucide-react";
 
@@ -8,13 +7,19 @@ interface BeforeAfterSliderProps {
   before: string;
   after: string;
   label: string;
+  aspect?: string;
 }
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 3;
 const HANDLE_HIT_RADIUS = 48;
 
-export function BeforeAfterSlider({ before, after, label }: BeforeAfterSliderProps) {
+export function BeforeAfterSlider({
+  before,
+  after,
+  label,
+  aspect = "3 / 4",
+}: BeforeAfterSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState(50);
   const [zoom, setZoom] = useState(1);
@@ -158,25 +163,38 @@ export function BeforeAfterSlider({ before, after, label }: BeforeAfterSliderPro
     <div className="w-full">
       <div
         ref={containerRef}
-        className={`relative aspect-[3/4] w-full select-none overflow-hidden rounded-2xl border border-black/10 shadow-sm ${cursorClass}`}
+        className={`relative w-full select-none overflow-hidden rounded-2xl border border-black/10 bg-dark shadow-sm ${cursorClass}`}
+        style={{ aspectRatio: aspect }}
         onWheel={onWheel}
         onMouseDown={(e) => startInteraction(e.clientX, e.clientY, e.target)}
         onTouchStart={(e) =>
           startInteraction(e.touches[0].clientX, e.touches[0].clientY, e.target)
         }
       >
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden bg-dark">
           <div className="relative h-full w-full" style={imageTransform}>
-            <Image src={after} alt={`${label} — after`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" draggable={false} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={after}
+              alt={`${label} — after`}
+              className="absolute inset-0 h-full w-full object-contain"
+              draggable={false}
+            />
           </div>
         </div>
 
         <div
-          className="absolute inset-0 overflow-hidden"
+          className="absolute inset-0 overflow-hidden bg-dark"
           style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
         >
           <div className="relative h-full w-full" style={imageTransform}>
-            <Image src={before} alt={`${label} — before`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" draggable={false} />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={before}
+              alt={`${label} — before`}
+              className="absolute inset-0 h-full w-full object-contain"
+              draggable={false}
+            />
           </div>
         </div>
 
@@ -205,11 +223,9 @@ export function BeforeAfterSlider({ before, after, label }: BeforeAfterSliderPro
           </button>
         </div>
 
-        <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
-          <span className="rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
-            Before
-          </span>
-        </div>
+        <span className="absolute top-3 left-3 z-20 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
+          Before
+        </span>
         <span className="absolute top-3 right-3 z-20 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
           After
         </span>
@@ -261,7 +277,6 @@ export function BeforeAfterSlider({ before, after, label }: BeforeAfterSliderPro
           </p>
         )}
       </div>
-      <p className="mt-3 text-center text-sm font-medium text-text">{label}</p>
     </div>
   );
 }
