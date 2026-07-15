@@ -3,7 +3,7 @@ export const site = {
   tagline: "Second shooter and freelance photo & video for your next production.",
   description:
     "Hire KCStudios as a second shooter or freelance photographer and videographer. Professional Sony cinema gear, seamless team integration, and reliable coverage for weddings, events, and productions.",
-  email: "hello@kcstudios.com",
+  email: "hello@kcstudios.us",
   phone: "+1 (703) 606-6953",
   phoneTel: "tel:+17036066953",
   bookingUrl: "",
